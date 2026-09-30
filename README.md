@@ -4,9 +4,9 @@
 
 一个中文优先的开源 AI Skill，帮助硕博生和研究人员比较方向、检查关键假设，并判断下一步该继续、转向，还是停止当前路线。适合开题、基金前期构思和项目复盘。
 
-受 Michael A. Fischbach 在 *Cell*（2024）发表的选题文章启发，独立编写工作流、模板与示例。MIT 开源；没有脚本、API 密钥或额外服务依赖，运行需要支持 Skills 的 AI 工具，其使用费用由相应工具决定。
+受 Michael A. Fischbach 在 *Cell*（2024）发表的选题文章启发，独立编写工作流、模板与示例。MIT 开源；v0.2.0 增加可选的 PubMed / OpenAlex 官方 API 检索脚本，只需 Python 3.10+，无第三方 Python 依赖。PubMed 基础查询无需密钥；OpenAlex 匿名搜索在本次测试时返回 503，详见下方限制说明。离线选题评估仍可直接使用工作流。运行需要支持 Skills 的 AI 工具，其使用费用由相应工具决定。
 
-[下载 v0.1.0 安装包](https://github.com/wanmengjie/research-topic-selector/releases/tag/v0.1.0) · [查看 Skill](skills/research-topic-selector/SKILL.md) · [完整示例](skills/research-topic-selector/references/example.md) · [小红书文案](docs/xiaohongshu.md)
+[下载 v0.2.0 安装包](https://github.com/qianqianwanwanmiumiu/research-topic-selector/releases/tag/v0.2.0) · [查看 Skill](skills/research-topic-selector/SKILL.md) · [完整示例](skills/research-topic-selector/references/example.md) · [小红书文案](docs/xiaohongshu.md)
 
 ## 它会帮你产出什么
 
@@ -44,7 +44,7 @@ flowchart LR
 把下面这段话发给支持 skill-installer 的 Codex：
 
 ```text
-请使用 $skill-installer，从 GitHub 仓库 wanmengjie/research-topic-selector
+请使用 $skill-installer，从 GitHub 仓库 qianqianwanwanmiumiu/research-topic-selector
 安装 skills/research-topic-selector 目录中的 skill。
 ```
 
@@ -58,13 +58,21 @@ skills/
     ├── SKILL.md
     ├── LICENSE
     ├── agents/openai.yaml
+    ├── scripts/search_literature.py
     └── references/
+        ├── database-search.md
         ├── worksheet.md
         ├── example.md
         └── sources.md
 ```
 
 本项目以可直接读取的 Skill 文件夹分发，尚未上架官方插件目录。其他支持 Agent Skills 的工具可按各自方式安装；其他客户端未在本次发布中逐一验证。普通聊天环境也可阅读 `SKILL.md` 作为提示词使用，但这不等同于安装和自动发现。
+
+### 数据库检索（v0.2.0）
+
+核查已有研究时，可以直接查询 PubMed 与 OpenAlex，获取标题、作者、DOI/PMID、可用摘要，并保存检索式、时间、总命中数、实际获取数和错误/截断状态。两库检索结果按 DOI/PMID 合并来源。用法、可选环境变量与官方接口说明见 [数据库检索说明](skills/research-topic-selector/references/database-search.md)。Web Search 仍可用于补充官方数据与其他资料。
+
+验证限制：PubMed 已通过真实联网测试；2026-09-30 测试时 OpenAlex 官方临时暂停匿名搜索并返回 503，其成功搜索路径目前仅通过离线模拟测试。使用者可等待匿名服务恢复或配置自己的 `OPENALEX_API_KEY` 后重新验证。真实 API 失败会保留其他库的结果并明确记录错误，不会当成零命中。
 
 ### 第一次使用
 
@@ -107,10 +115,10 @@ Fischbach, M. A. (2024). *Problem choice and decision trees in science and engin
 
 ## 验证与贡献
 
-v0.1.0 做了 Skill 结构校验、方法归属复核和一次独立离线行为试用，详见 [验证记录](docs/validation.md)。这不代表已证明能预测研究成功率，也不保证所有模型都严格遵循工作流。
+v0.2.0 通过 7 项离线回归测试、Skill 结构和安装包检查，并完成上述联网核查；v0.1.0 的方法归属复核和独立离线行为试用记录也予以保留，详见 [验证记录](docs/validation.md)。这不代表已证明能预测研究成功率，也不保证所有模型都严格遵循工作流。
 
 欢迎提交 Issue 或 PR，附上脱敏后的输入、实际输出、问题所在和建议。请勿上传未授权数据或尚不打算公开的课题。改动方法时标明是对原论文的解释还是项目新增设计；可用仓库示例或验证记录中的案例检查改动。
 
 ## English overview
 
-Research Topic Selector is a Chinese-first, instruction-only Agent Skill for choosing and reassessing research projects. It produces conditional comparisons, assumption audits, minimal validation plans, and Go/Pivot/Stop/Inconclusive decisions. It is inspired by Fischbach (2024), independently authored, and MIT licensed. It does not predict publication outcomes or claim institutional endorsement.
+Research Topic Selector is a Chinese-first Agent Skill for choosing and reassessing research projects, with optional standard-library Python helpers for PubMed and OpenAlex searches. It produces conditional comparisons, assumption audits, minimal validation plans, and Go/Pivot/Stop/Inconclusive decisions. It is inspired by Fischbach (2024), independently authored, and MIT licensed. It does not predict publication outcomes or claim institutional endorsement.
