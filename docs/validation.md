@@ -1,6 +1,23 @@
 # 验证记录
 
-日期：2026-09-30。验证对象为本仓库 Skill 和打包文件，不是某一真实科研项目。
+验证对象为本仓库 Skill 和打包文件，不是某一真实科研项目；各版本分别记录日期和范围。
+
+## v0.3.0 跨宿主适配
+
+日期：2026-10-01。核心工作流、资源和检索脚本不依赖 Codex CLI、OpenAI API 或特定 MCP；增加能力不足时的降级说明、解释器选择、绝对脚本路径和任务目录输出指引。通用包保留可选 Codex UI 文件；WorkBuddy 包由同一源文件生成，仅移除该 UI 文件并增加官方字段表列出的双语描述、作者和顶层版本。
+
+| 对象 | 已完成的验证 | 未完成的验证 |
+| --- | --- | --- |
+| 通用 Skill / Codex | 结构校验、本机已安装版文件一致性检查 | 未重新开展科研决策行为有效性评估 |
+| Claude Code | 官方路径与调用语法核对；本机 CLI 版本为 2.1.193；在隔离项目的 `.claude/skills/research-topic-selector` 放置 8 个同源文件，核对 SHA-256 与本地引用；从其他工作目录以绝对路径调用 Python 脚本 `--help` 成功 | 未启动 Claude 模型请求，未验证自动发现、自动触发或端到端选题结果 |
+| WorkBuddy | 官方导入入口与字段/目录要求核对；包内 YAML、资源和公共正文一致性检查 | 未在 WorkBuddy 客户端实际导入、自动触发或执行数据库查询；开放平台字段规范也不能证明所有版本本地导入器的行为 |
+| 其他 Agent Skills 宿主 | 核心文件采用通用结构、标准库 Python 和宿主无关的工具要求 | 未逐个客户端或操作系统实测，不承诺所有环境安装即用 |
+
+7 项检索回归测试通过；两种 ZIP 分别为 8/7 个白名单文件，共同文件及工作流正文逐字节一致，排除 Python 缓存与凭据。`scripts/build_release.py` 自带上述构建检查并生成两个包的 SHA-256；重复构建会拒绝覆盖。运行检查在 Windows + Python 3.12.5 下完成，未声称已在 macOS/Linux 或云端沙箱运行测试。
+
+Claude Code 的隔离检查报告保留在维护者本地工作区；未修改用户的 Claude Code 全局配置，未将认证信息、检查输出或研究数据打包发布。v0.2.0 的 OpenAlex 503 记录保留如下，本次没有重新验证其服务可用性。
+
+格式核对依据：[Agent Skills 标准](https://agentskills.io/specification)、[Codex Skills](https://learn.chatgpt.com/docs/build-skills)、[Claude Code Skills](https://code.claude.com/docs/en/skills)、[WorkBuddy 导入说明](https://www.workbuddy.cn/docs/workbuddy/From-Beginner-to-Expert-Guide/Function-Description/Skills-Market)、[WorkBuddy Skill 字段](https://open.workbuddy.cn/docs/skill)。
 
 ## v0.2.0 数据库 API 接入
 

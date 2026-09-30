@@ -4,11 +4,15 @@
 
 ## 使用
 
-从本 skill 所在目录运行；也可把脚本写成绝对路径。`--out` 指向本次任务的输出目录，已有同名文件会被拒绝覆盖。
+从本次任务的工作目录运行，以**安装后的脚本绝对路径**调用；`--out` 指向任务输出目录，不写入 Skill 安装目录。已有同名文件会被拒绝覆盖。先用解释器的 `--version` 检查 Python 3.10+；Windows 常用 `python` 或 `py -3`，macOS/Linux 常用 `python3`，以宿主实际可用命令为准。
 
-```powershell
-python scripts/search_literature.py --pubmed-query '(heat[Title/Abstract] OR temperature[Title/Abstract]) AND "mental health"[Title/Abstract]' --openalex-query '(heat OR temperature) AND "mental health"' --from-date 2020-01-01 --to-date 2026-09-30 --limit 50 --out ./literature-search.json
+以下 PowerShell / Bash / zsh 示例中，把 `<脚本绝对路径>` 替换为实际的 `scripts/search_literature.py` 路径（保留引号），并按环境替换解释器命令：
+
+```sh
+python "<脚本绝对路径>" --pubmed-query '(heat[Title/Abstract] OR temperature[Title/Abstract]) AND "mental health"[Title/Abstract]' --openalex-query '(heat OR temperature) AND "mental health"' --from-date 2020-01-01 --to-date 2026-09-30 --limit 50 --out ./literature-search.json
 ```
+
+`cmd.exe` 的引号规则不同，不能照搬上面的单引号检索式；可改用 PowerShell，或由宿主按参数数组执行。若宿主禁止执行命令或外网连接，仍可离线选题或使用其已提供的检索工具，但应说明没有运行本数据库脚本。导入 Skill 本身不会授予额外运行权限。
 
 只查一个库时仅提供对应的 `--pubmed-query` 或 `--openalex-query`。`--limit` 是**每个数据库**的获取上限，默认 50，可设为 1–1000；不代表总命中数。日期参数可省略，按发表日期筛选。不要未经判断使用示例中的关键词、日期和数量。
 
@@ -26,7 +30,7 @@ PubMed 已实测可进行无密钥的少量查询。OpenAlex 官方认证规则�
 | `NCBI_EMAIL` | 向 NCBI 提供的维护者联系邮箱；留空也能进行基础查询 |
 | `OPENALEX_API_KEY` | OpenAlex key，通过 Authorization header 发送，可提高每日额度 |
 
-可在 [NCBI 账户设置](https://www.ncbi.nlm.nih.gov/account/settings/) 与 [OpenAlex API 设置](https://openalex.org/settings/api) 获取自己的 key。在本机配置环境变量即可，不要把真实 key 放进 skill、报告、命令示例或共享仓库。修改持久环境变量后，已有终端/应用通常需重新启动才能继承。
+可在 [NCBI 账户设置](https://www.ncbi.nlm.nih.gov/account/settings/) 与 [OpenAlex API 设置](https://openalex.org/settings/api) 获取自己的 key。在实际执行脚本的本机进程或宿主运行环境中配置环境变量，不要把真实 key 放进 skill、报告、命令示例或共享仓库。桌面应用、终端和云端沙箱不一定共享环境变量；修改持久环境变量后，已有终端/应用通常需重新启动才能继承。
 
 NCBI 无 key 的限制是每个 IP 每秒 3 次，有 key 通常为每秒 10 次；脚本仍采用保守串行请求，多个进程的合计请求率需由使用者控制。OpenAlex 的无 key 基础额度与有 key 额度不同，额度与定价以官方页面为准；脚本不会自动购买或升级额度。429 或服务端暂时错误会有限重试，持续失败则记录错误并退出。
 

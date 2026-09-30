@@ -2,8 +2,8 @@ cff-version: 1.2.0
 message: "Please cite this repository and version when using this workflow; cite Fischbach (2024) separately for the original article."
 title: "Research Topic Selector: 科研选题决策助手"
 type: software
-version: 0.2.0
-date-released: 2026-09-30
+version: 0.3.0
+date-released: 2026-10-01
 authors:
   - name: "wanmengjie"
 repository-code: "https://github.com/qianqianwanwanmiumiu/research-topic-selector"
