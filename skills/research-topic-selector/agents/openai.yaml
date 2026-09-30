@@ -1,0 +1,4 @@
+interface:
+  display_name: "科研选题决策助手"
+  short_description: "比较科研方向、检查关键假设，用最小验证形成可复评的选题决策树"
+  default_prompt: "请使用 $research-topic-selector，结合我的研究阶段、候选方向和资源限制，给出选题比较、关键假设与下一步验证。"

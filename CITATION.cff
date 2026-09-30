@@ -1,0 +1,16 @@
+cff-version: 1.2.0
+message: "Please cite this repository and version when using this workflow; cite Fischbach (2024) separately for the original article."
+title: "Research Topic Selector: 科研选题决策助手"
+type: software
+version: 0.1.0
+date-released: 2026-09-30
+authors:
+  - name: "wanmengjie"
+repository-code: "https://github.com/wanmengjie/research-topic-selector"
+url: "https://github.com/wanmengjie/research-topic-selector"
+license: MIT
+keywords:
+  - research-topic-selection
+  - agent-skill
+  - research-planning
+  - decision-tree
